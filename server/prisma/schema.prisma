@@ -6,10 +6,49 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  username  String    @unique
+  email     String    @unique
+  password  String
+  createdAt DateTime  @default(now())
+
+  accounts  Account[]
+}
+
+model Account {
+  id        Int       @id @default(autoincrement())
+  name      String
+  currency  String    @default("PLN")
+  createdAt DateTime  @default(now())
+
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+
+  transactions Transaction[]
+}
+
+model Transaction {
+  id            Int       @id @default(autoincrement())
+  amount        Decimal    @db.Decimal(12, 2)
+  type          TransactionType
+  category      String
+  description   String?
+  transactionAt DateTime
+  createdAt     DateTime  @default(now())
+
+  accountId     Int
+  account       Account   @relation(fields: [accountId], references: [id])
+}
+
+enum TransactionType {
+  income
+  expense
 }
