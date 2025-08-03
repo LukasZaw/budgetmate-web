@@ -6,7 +6,19 @@ import setupRoutes from "./routes";
 dotenv.config();
 const app = express();
 
-app.use(cors());
+// List of allowed origins for CORS
+const allowedOrigins = [
+  "http://localhost:3000", // frontend dev
+  "https://example.pl", // production domain
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 setupRoutes(app);

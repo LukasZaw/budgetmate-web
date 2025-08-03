@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { sendRegistrationEmail } from "../utils/mailer";
 
 export class UserService {
   private prisma: PrismaClient;
@@ -14,9 +15,11 @@ export class UserService {
 
   async createUser(username: string, email: string, password: string) {
     const hashedPassword = await bcrypt.hash(password, 10);
-    return await this.prisma.user.create({
+    const user = await this.prisma.user.create({
       data: { username, email, password: hashedPassword },
     });
+    await sendRegistrationEmail(email, username);
+    return user;
   }
 
   async getUserById(id: number) {
