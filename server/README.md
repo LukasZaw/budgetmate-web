@@ -17,16 +17,19 @@ BudgetMate is a web application designed to help users manage their finances eff
 ## Installation
 
 1. Clone the repository:
+
    ```
    git clone https://github.com/yourusername/budgetmate-web.git
    ```
 
 2. Navigate to the server directory:
+
    ```
    cd budgetmate-web/server
    ```
 
 3. Install the dependencies:
+
    ```
    npm install
    ```
@@ -40,6 +43,7 @@ BudgetMate is a web application designed to help users manage their finances eff
 ## Usage
 
 To start the server in development mode, run:
+
 ```
 npm run dev
 ```
